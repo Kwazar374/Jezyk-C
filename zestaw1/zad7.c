@@ -20,6 +20,20 @@ int main()
     while(*(ptr++) != '\0')
         if (*ptr == 'd') number_of_dice++;
 
+    // jesli modyfikator jest ujemny pozbywam sie spacji pomiedzy minusem a modulem
+    // dzieki temu, pozniej latwiej jest mi wczytac wartosc modyfikatora
+    ptr = input_string;
+    while(*(ptr++) != '\0')
+        if (*ptr == '-' && *(ptr + 1) == ' ') {
+            *ptr = ' ';
+            *(ptr + 1) = '-';
+        }
+
+    if (number_of_dice == 0) {
+        printf("Blad: Nie wprowadzono informacji o zadnych kosciach\n");
+        return 1;
+    }
+
     int rolls = 0;
     int dice = 0;
     char *portion;
@@ -31,15 +45,18 @@ int main()
     
 
     while (1) {
-        // wczytywanie liczby rzutow dana koscia
+
         if (d <= 0) {
             if ((portion = strtok(NULL, " +")) != NULL) {
                 strcpy(temp_str, portion);
-                printf("modifier: %s\n", temp_str);
-                result += atoi(temp_str+strspn(temp_str, " +"));
+                int modifier = atoi(temp_str+strspn(temp_str, " +"));
+                printf("\tModyfikator: %d\n", modifier);
+                result += modifier;
             }
             break;
         }
+
+        // wczytywanie liczby rzutow dana koscia
         if ((portion = strtok(((i==0) ? input_string : NULL), "d")) == NULL) {
             break;
         }
@@ -47,32 +64,30 @@ int main()
         rolls = atoi(temp_str+strspn(temp_str, " +"));
 
         // wczytywanie liczby scian danej kosci
-
         second_portion = strtok(NULL, " ");
         strcpy(temp_str, second_portion);
         dice = atoi(temp_str+strspn(temp_str, " +"));
 
         // sprawdzanie czy liczba rzutow i liczba scian kosci sa wieksze od zera
         // 0 jest zwracane przez funkcje atoi, jesli ciag znakow zawieral niecyfry
-        // w przyszlosci mozna dodac bardziej zaawansowana obsluge bledow
-        // np. kosci o jednej scianie nie istnieja
         if (!rolls || !dice) {
-            printf("\nBlad: Wprowadzony ciag jest bledy lub niezgodny z wczesniej okreslonymi zasadami\n");
+            printf("\nBlad: Wprowadzony ciag jest bledny lub niezgodny z wczesniej okreslonymi zasadami\n");
             return 1;
         }
 
         // wykonywanie rzutow dana koscia
         for (int i = 1; i <= rolls; i++) {
-            int rzut = (rand() % dice) + 1;
-            printf("%d\n", rzut);
-            result += rzut;
+            int roll = (rand() % dice) + 1;
+            printf("\tRzut koscia %d-scienna nr %d: %d\n", dice, i, roll);
+            result += roll;
         }
+        printf("\t------------------------------------\n");
 
         i++;
         d--;     
     }
 
 
-    printf("wynik %d", result);
+    printf("Wynik: %d", result);
     return 0;
 }
