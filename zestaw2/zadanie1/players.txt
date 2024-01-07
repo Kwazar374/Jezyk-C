@@ -1,0 +1,11 @@
+Agata,Malka,zlodziej,6,47
+Andrzej,Dakkon,samuraj,4,35
+Dariusz,Garrett,zlodziej/wojownik,4,58
+Karol,Loreal,zlodziej,4,31
+Karol,Xachariasz,paladyn,6,52
+Mateusz,Merwinek,ranger,5,42
+Michal,Durian,wojownik,7,57
+Pawel,Tuto,goblin,6,43
+Pawel,Anneke,sorcerer,6,50
+Radek,Valindra,czarodziej,11,95
+Szymon,Wojslaw,czarodziej,7,32
